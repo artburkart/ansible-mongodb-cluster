@@ -1,0 +1,7 @@
+# The site wide list of mongodb servers
+
+[mongo_servers]
+localhost ansible_connection=local mongod_port=27017
+
+[mongod_slaves]
+localhost ansible_connection=local mongod_port=27017

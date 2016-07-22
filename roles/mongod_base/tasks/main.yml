@@ -1,4 +1,12 @@
 ---
+- name: Install firewalld
+  yum: name=firewalld state=installed
+
+- name: Make sure firewalld is running
+  service:
+    name: firewalld
+    state: started
+
 - name: Enable the mongod port.
   firewalld: port={{ mongod_port }}/tcp permanent=true state=enabled immediate=true
 
@@ -27,15 +35,20 @@
 
 - name: Set up the mongodb service using systemd
   command: systemctl --system daemon-reload
+
+- name: Enable the mongod service
   command: systemctl enable mongod.service
 
-# Use the blockdev command to set the readahead to 32 to increase performance
-- name: Set readahead on system startup
-  copy: src=setreadahead.service dest=/lib/systemd/system/setreadahead.service
+# I couldn't get this to work; maybe worth revisiting later
+# # Use the blockdev command to set the readahead to 32 to increase performance
+# - name: Set readahead on system startup
+#   copy: src=setreadahead.service dest=/lib/systemd/system/setreadahead.service
 
-- name: Set up the blockdev script to run every time the system starts using systemd
-  command: systemctl --system daemon-reload
-  command: systemctl enable setreadahead.service
+# - name: Set up the blockdev script to run every time the system starts using systemd
+#   command: systemctl --system daemon-reload
 
-- name: Run it
-  service: name=setreadahead.service enabled=yes state=restarted
+# - name: Enable the setreadahead service
+#   command: systemctl enable setreadahead.service
+
+# - name: Run it
+#   service: name=setreadahead.service enabled=yes state=restarted

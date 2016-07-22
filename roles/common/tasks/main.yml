@@ -1,7 +1,9 @@
 ---
 # This Playbook runs all the common plays in the deployment
-- name: Create the hosts file for all machines
-  template: src=hosts.j2 dest=/etc/hosts
+
+# I'll figure out why this doesn't work after I'm done testing
+# - name: Create the hosts file for all machines
+#   template: src=hosts.j2 dest=/etc/hosts
 
 - name: Create the repository for 10Gen
   copy: src=10gen.repo.j2 dest=/etc/yum.repos.d/10gen.repo
